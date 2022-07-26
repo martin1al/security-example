@@ -7,10 +7,17 @@ const PORT = 3000;
 
 const app = express();
 
+app.get('/secret', (req, res) => {
+  return res.send('Your personal secret value is 1!');
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+}, app).listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);
 });
